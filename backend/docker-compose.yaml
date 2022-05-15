@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  axios-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+    links:
+      - 'postgres-db:db'
+  postgres-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: codecamp
+      POSTGRES_PASSWORD: codecamp
+      POSTGRES_DB: codecamp
+    ports:
+      - 5432:5432
