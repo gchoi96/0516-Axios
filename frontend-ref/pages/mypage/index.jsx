@@ -1,12 +1,12 @@
-import styled from "@emotion/styled"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import useAxios from "../../src/useAxios"
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import useAxios from "../../src/useAxios";
 const InputWrapper = styled.div`
   display: : flex;
   flex-direction: "row";
   margin-bottom: 20px;
-`
+`;
 
 export default function MyPage() {
   const [inputValues, setInputValues] = useState({
@@ -17,7 +17,7 @@ export default function MyPage() {
     year: 0,
     month: 0,
     day: 0,
-  })
+  });
 
   const [initValues, setInitValues] = useState({
     email: "",
@@ -27,10 +27,10 @@ export default function MyPage() {
     year: 0,
     month: 0,
     day: 0,
-  })
+  });
 
-  const [axios] = useAxios()
-  const router = useRouter()
+  const [axios] = useAxios();
+  const router = useRouter();
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -39,47 +39,47 @@ export default function MyPage() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      })
+      });
 
-      setInputValues(result.data.user)
-      setInitValues(result.data.user)
-    }
-    getUserInfo()
-  }, [])
+      setInputValues(result.data.user);
+      setInitValues(result.data.user);
+    };
+    getUserInfo();
+  }, []);
 
   const onChangeInput = (gubun) => (event) => {
     const newValue = ["year", "month", "day"].includes(gubun)
       ? Number(event.target.value)
-      : event.target.value
+      : event.target.value;
     setInputValues((prev) => {
-      return { ...prev, [gubun]: newValue }
-    })
-  }
+      return { ...prev, [gubun]: newValue };
+    });
+  };
 
   const onClickUpdate = async () => {
-    if (initValues === inputValues) alert("변경사항 없음")
+    if (initValues === inputValues) alert("변경사항 없음");
     try {
       const result = await axios.patch(
         "http://localhost:4000/users",
         inputValues
-      )
+      );
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
-  }
+  };
 
   const onClickDelete = async () => {
     try {
       const result = await axios.delete(
         "http://localhost:4000/users",
         inputValues
-      )
-      localStorage.removeItem("accessToken")
-      router.push("/signup")
+      );
+      localStorage.removeItem("accessToken");
+      router.push("/signup");
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -132,5 +132,5 @@ export default function MyPage() {
         <button onClick={onClickDelete}>삭제</button>
       </InputWrapper>
     </div>
-  )
+  );
 }

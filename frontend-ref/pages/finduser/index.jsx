@@ -1,50 +1,50 @@
-import styled from "@emotion/styled"
-import { useRouter } from "next/router"
-import { useRef, useState } from "react"
-import useAxios from "../../src/useAxios"
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
+import useAxios from "../../src/useAxios";
 
 export default function SignIn() {
-  const nickNameRef = useRef(null)
-  const emailRef = useRef(null)
+  const nickNameRef = useRef(null);
+  const emailRef = useRef(null);
 
   const [nickNameResult, setNickNameResult] = useState({
     name: "",
     email: "",
     nickName: "",
-  })
+  });
   const [emailResult, setEmailResult] = useState({
     name: "",
     email: "",
     nickName: "",
-  })
+  });
 
-  const [axios] = useAxios()
+  const [axios] = useAxios();
 
   const onClickNickNameSearch = async () => {
-    if (!nickNameRef || !nickNameRef.current.value) return
+    if (!nickNameRef || !nickNameRef.current.value) return;
     try {
       const result = await axios.get(
         `/users/byNickName/${nickNameRef.current.value}`,
         { email: emailRef.current.value }
-      )
-      const { name, nickName, email } = result.data.user
-      setNickNameResult({ name, nickName, email })
+      );
+      const { name, nickName, email } = result.data.user;
+      setNickNameResult({ name, nickName, email });
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
-  }
+  };
   const onClickEmailSearch = async () => {
-    if (!emailRef || !emailRef.current.value) return
+    if (!emailRef || !emailRef.current.value) return;
     try {
       const result = await axios.get(`/users/byEmail?`, {
         params: { email: emailRef.current.value },
-      })
-      const { name, nickName, email } = result.data.user
-      setEmailResult({ name, nickName, email })
+      });
+      const { name, nickName, email } = result.data.user;
+      setEmailResult({ name, nickName, email });
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
-  }
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -77,5 +77,5 @@ export default function SignIn() {
         </div>
       </div>
     </div>
-  )
+  );
 }

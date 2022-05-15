@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 export default function useAxios() {
   const myAxios = axios.create({
@@ -8,7 +8,7 @@ export default function useAxios() {
         typeof window !== "undefined" ? localStorage.getItem("accessToken") : ""
       }`,
     },
-  })
+  });
 
-  return [myAxios]
+  return [myAxios];
 }

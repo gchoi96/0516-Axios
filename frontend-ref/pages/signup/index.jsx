@@ -1,13 +1,13 @@
-import styled from "@emotion/styled"
-import axios from "axios"
-import { useRouter } from "next/router"
-import { useState } from "react"
+import styled from "@emotion/styled";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 const InputWrapper = styled.div`
   display: : flex;
   flex-direction: "row";
   margin-bottom: 20px;
-`
+`;
 
 export default function SignUp() {
   const [inputValues, setInputValues] = useState({
@@ -18,29 +18,32 @@ export default function SignUp() {
     year: 0,
     month: 0,
     day: 0,
-  })
+  });
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:4000/",
-  })
+  });
 
-  const router = useRouter()
+  const router = useRouter();
 
   const onChangeInput = (gubun) => (event) => {
     const newValue = ["year", "month", "day"].includes(gubun)
       ? Number(event.target.value)
-      : event.target.value
+      : event.target.value;
     setInputValues((prev) => {
-      return { ...prev, [gubun]: newValue }
-    })
-  }
+      return { ...prev, [gubun]: newValue };
+    });
+  };
 
   const onClickSignUp = async () => {
     if (Object.values(inputValues).filter((el) => !el).length > 0)
-      alert("입력 누락")
+      alert("입력 누락");
 
     // async, await
-    const result3 = await axios.post("http://localhost:4000/users", inputValues)
+    const result3 = await axios.post(
+      "http://localhost:4000/users",
+      inputValues
+    );
 
     /* axios 객체 사용 */
 
@@ -57,8 +60,8 @@ export default function SignUp() {
     //   .then((result) => result.data.user)
     //   .catch((err) => alert(err.message))
 
-    router.push("/signin")
-  }
+    router.push("/signin");
+  };
 
   return (
     <div>
@@ -81,5 +84,5 @@ export default function SignUp() {
       </InputWrapper>
       <button onClick={onClickSignUp}>회원가입</button>
     </div>
-  )
+  );
 }
