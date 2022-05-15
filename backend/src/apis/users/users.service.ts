@@ -1,9 +1,7 @@
-import { MailerService } from '@nestjs-modules/mailer';
 import {
   ConflictException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,9 +12,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 // import { nodemailer } from 'nodemailer';
-import * as nodemailer from 'nodemailer';
 import { FindEmailDto } from './dto/find-email.dto';
-import { ResetPwdSendMailDTO, UpdatePwdDTO } from './dto/reset-password.dto';
 // const nodemailer = require('nodemailer');
 @Injectable()
 export class UsersService {
@@ -56,14 +52,15 @@ export class UsersService {
     }
   };
 
-  fetchUserById = async (userId: string) => {
+  fetchUserByNickName = async (nickName: string) => {
     return this.userRepository.findOne({
-      where: { id: userId },
+      where: { nickName: nickName },
     });
   };
 
   fetchUserByEmail = async (email: any) => {
-    return this.userRepository.findOne({ where: { email } });
+    console.log(email);
+    return this.userRepository.findOne({ where: { email: email } });
   };
 
   loggedInUser = async (currentUser: ICurrentUser) => {

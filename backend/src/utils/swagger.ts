@@ -3,8 +3,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 export function setupSwagger(app: INestApplication): void {
   const options = new DocumentBuilder()
-    .setTitle('With Chat API Docs')
-    .setDescription('With Chat 1.0 API Docs')
+    .setTitle('CodeCamp FE05 - Axios')
+    .setDescription('CodeCamp FE05 - Axios API Docs')
     .setVersion('1.0.0')
     .addBearerAuth(
       {

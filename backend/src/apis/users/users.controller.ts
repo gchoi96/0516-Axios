@@ -32,7 +32,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('/byId/:userId')
+  @Get('/byNickName/:nickName')
   @ApiOperation({
     summary: '유저 정보 조회 API',
     description: '입력받은 유저ID와 일치하는 유저 정보를 조회한다.',
@@ -41,14 +41,14 @@ export class UsersController {
     description: '조회 성공.',
     type: UserResult,
   })
-  fetchUserById(@Res() res, @Param('userId') userId: string) {
-    return this.usersService.fetchUserById(userId).then((result) => {
+  fetchUserByNickName(@Res() res, @Param('nickName') nickName: string) {
+    return this.usersService.fetchUserByNickName(nickName).then((result) => {
       const { password, ...user } = result;
       res.status(HttpStatus.OK).json({ success: true, user: user });
     });
   }
 
-  @Get('/byEmail/:email')
+  @Get('/byEmail')
   @ApiOperation({
     summary: '유저 정보 조회 API',
     description: '입력받은 email과 일치하는 유저 정보를 조회한다.',
@@ -57,7 +57,7 @@ export class UsersController {
     description: '조회 성공.',
     type: UserResult,
   })
-  fetchUserByEmail(@Res() res, @Param('email') email: string) {
+  fetchUserByEmail(@Res() res, @Query('email') email: string) {
     return this.usersService.fetchUserByEmail(email).then((result) => {
       const { password, ...user } = result;
       res.status(HttpStatus.OK).json({ success: true, user: user });
@@ -78,7 +78,7 @@ export class UsersController {
   }
 
   @UseGuards(AuthAccessGuard)
-  @Post('loggedInUser')
+  @Get('loggedInUser')
   @ApiBearerAuth('access-token')
   @ApiOperation({
     summary: '로그인 유저 정보 조회 API',
@@ -92,7 +92,7 @@ export class UsersController {
     return this.usersService
       .loggedInUser(currentUser)
       .then((result) =>
-        res.status(HttpStatus.CREATED).json({ success: true, ...result }),
+        res.status(HttpStatus.OK).json({ success: true, ...result }),
       );
   }
 
@@ -158,7 +158,7 @@ export class UsersController {
       if (!result) throw new ConflictException('비밀번호 변경 실패');
       return res
         .status(HttpStatus.OK)
-        .json({ success: true, message: '비밀번호 변경 성공' });
+        .json({ success: true, message: '회원정보 삭제 성공' });
     });
   }
 }
