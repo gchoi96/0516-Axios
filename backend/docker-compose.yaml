@@ -17,4 +17,4 @@ services:
       POSTGRES_PASSWORD: codecamp
       POSTGRES_DB: codecamp
     ports:
-      - 5432:5432
+      - 5434:5434
