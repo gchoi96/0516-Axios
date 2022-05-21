@@ -67,7 +67,8 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: { id: currentUser.id },
     });
-    return { user };
+    console.log(user);
+    return user;
   };
 
   findEmail = async (findEmailDto: FindEmailDto): Promise<string> => {

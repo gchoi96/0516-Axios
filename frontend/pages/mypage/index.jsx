@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useAxios from "../../src/useAxios";
 const InputWrapper = styled.div`
   display: : flex;
   flex-direction: "row";
@@ -29,10 +30,12 @@ export default function MyPage() {
   });
 
   const router = useRouter();
-
+  const [axios] = useAxios();
   useEffect(() => {
     const getUserInfo = async () => {
       // 내 정보 조회 API 호출
+      const result = await axios.get("/users/loggedInUser");
+      console.log(result);
       setInputValues(result.data.user);
       setInitValues(result.data.user);
     };
@@ -52,6 +55,7 @@ export default function MyPage() {
     if (initValues === inputValues) alert("변경사항 없음");
     try {
       // 회원 정보 수정 API 호출
+      const result = axios.patch("/users", inputValues);
     } catch (err) {
       alert(err.message);
     }
@@ -60,6 +64,8 @@ export default function MyPage() {
   const onClickDelete = async () => {
     try {
       // 회원 탈퇴 API 호출
+
+      const result = axios.delete("/users");
       localStorage.removeItem("accessToken");
       router.push("/signup");
     } catch (err) {

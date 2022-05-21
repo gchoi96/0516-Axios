@@ -13,7 +13,7 @@ import { UsersModule } from './apis/users/users.module';
       database: 'withchat',
       username: 'withchat',
       password: 'withchat',
-      host: 'localhost',
+      host: 'db.withchat.site',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,

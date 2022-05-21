@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useState } from "react";
-
+import useAxios from "../../src/useAxios";
 const InputWrapper = styled.div`
   display: : flex;
   flex-direction: "row";
@@ -20,13 +20,16 @@ export default function SignIn() {
     });
   };
 
+  const [axios] = useAxios();
   const onClickSignIn = async () => {
     if (Object.values(inputValues).filter((el) => !el).length > 0)
       alert("입력 누락");
 
     // 로그인 API 호출
-
-    router.push("/mypage");
+    const result = await axios.post("/auth/login", inputValues);
+    localStorage.setItem("accessToken", result.data.accessToken);
+    console.log(result);
+    // router.push("/mypage");
   };
 
   return (

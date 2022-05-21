@@ -59,8 +59,8 @@ export class UsersController {
   })
   fetchUserByEmail(@Res() res, @Query('email') email: string) {
     return this.usersService.fetchUserByEmail(email).then((result) => {
-      const { password, ...user } = result;
-      res.status(HttpStatus.OK).json({ success: true, user: user });
+      // const { password, ...user } = result;
+      res.status(HttpStatus.OK).json({ success: true, user: result });
     });
   }
 

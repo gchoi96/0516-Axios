@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import useAxios from "../../src/useAxios";
 
 export default function SignIn() {
   const nickNameRef = useRef(null);
@@ -17,11 +18,22 @@ export default function SignIn() {
     nickName: "",
   });
 
+  const [axios] = useAxios();
+  //  url/users/byNickName/{이부분}
+  //  url/users/byNickName/{이부분}
+
+  // url/users/byEmail?email=asd@asd.asd
+  // url/users/byEmail?email=asd@asd.asd
+
   const onClickNickNameSearch = async () => {
     if (!nickNameRef || !nickNameRef.current.value) return;
     try {
       // nickName으로 검색 API 호출
+      const result = await axios.get(
+        `/users/byNickName/${nickNameRef.current.value}`
+      );
 
+      console.log(result);
       const { name, nickName, email } = result.data.user;
       setNickNameResult({ name, nickName, email });
     } catch (err) {
@@ -33,6 +45,11 @@ export default function SignIn() {
     try {
       // email로 검색 API 호출
 
+      const result = await axios.get(`/users/byEmail`, {
+        params: { email: emailRef.current.value },
+      });
+      //->
+      //`http://localhost:4000/users/byEmail?${email}=${emailRef.current.value}`;
       const { name, nickName, email } = result.data.user;
       setEmailResult({ name, nickName, email });
     } catch (err) {

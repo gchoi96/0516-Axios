@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useState } from "react";
-
+import axios from "axios";
 const InputWrapper = styled.div`
   display: : flex;
   flex-direction: "row";
@@ -30,13 +30,19 @@ export default function SignUp() {
     });
   };
 
+  const axiosInstance = axios.create({
+    baseURL: "http://localhost:4000",
+  });
+
   const onClickSignUp = async () => {
     if (Object.values(inputValues).filter((el) => !el).length > 0)
       alert("입력 누락");
 
     // 회원가입 API 호출
-
-    router.push("/signin");
+    // const result = await axios.post("http://localhost:4000/users", inputValues);
+    const result = await axiosInstance.post("/users", inputValues);
+    console.log(result);
+    // router.push("/signin");
   };
 
   return (
